@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>余婉婷 / Wanting Yu — Learning AI by Building</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&amp;family=Noto+Serif+SC:wght@400;600;700;900&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+  :root{
+    --bg:#050505;
+    --bg2:#0B0D0F;
+    --paper:#F5F2EC;
+    --gold:#E8C75A;
+    --gold2:#F2D56B;
+    --red:#D73028;
+    --muted:#8C929E;
+    --line:rgba(255,255,255,0.14);
+    --serif:'Playfair Display','Noto Serif SC',Georgia,'Songti SC',serif;
+    --serifsc:'Noto Serif SC','Songti SC',serif;
+    --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono','Menlo',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--red);color:#fff;}
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:var(--mono);}
+
+  /* ---------- 顶部导航 ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px clamp(24px,5vw,72px);
+    border-bottom:1px solid rgba(255,255,255,0.10);
+    background:rgba(5,5,5,0.32);
+    backdrop-filter:blur(22px) saturate(150%);
+    -webkit-backdrop-filter:blur(22px) saturate(150%);
+  }
+  .brand{display:flex;align-items:baseline;gap:12px;}
+  .brand .cn{font-family:var(--serifsc);font-weight:700;font-size:24px;letter-spacing:3px;}
+  .brand .en{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted);letter-spacing:.5px;}
+  .nav-links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:clamp(18px,3vw,40px);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+  .nav-links a{transition:color .3s;position:relative;padding:4px 0;}
+  .nav-links a:hover{color:var(--paper);}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-mail{font-family:var(--mono);font-size:13.5px;color:#aeb3bd;letter-spacing:.2px;}
+  .nav-mail:hover{color:var(--gold);}
+
+  /* ---------- 通用区块 ---------- */
+  section{position:relative;padding:clamp(90px,12vh,150px) clamp(24px,6vw,84px);}
+  .grid-bg{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);
+    background-size:72px 72px;
+  }
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+  .big-title{
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:clamp(40px,7vw,96px);
+    line-height:1.02;
+    letter-spacing:-1px;
+    text-wrap:pretty;
+  }
+  .big-title .accent{color:var(--gold);font-style:italic;font-weight:600;}
+  .sec-title{
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:clamp(34px,5.2vw,72px);
+    line-height:1.05;
+    letter-spacing:-.5px;
+    text-wrap:pretty;
+  }
+  .sec-sub{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:14px;font-family:var(--mono);}
+  .lead{max-width:640px;color:#cfcbc2;font-size:16px;margin-top:22px;}
+  .lead strong{color:var(--paper);font-weight:500;}
+  .hairline{height:1px;background:var(--line);border:0;margin:0;}
+
+  /* 按钮 */
+  .btn{
+    display:inline-block;padding:13px 30px;border:1px solid var(--line);
+    font-size:13px;letter-spacing:2px;color:var(--paper);
+    transition:all .35s;cursor:pointer;background:transparent;
+  }
+  .btn:hover{border-color:var(--gold);color:var(--gold);}
+  .btn.solid{background:var(--paper);color:var(--bg);border-color:var(--paper);}
+  .btn.solid:hover{background:var(--gold);border-color:var(--gold);color:var(--bg);}
+  .btn.red-line:hover{border-color:var(--red);color:var(--red);}
+
+  /* 滚动入场 */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform .8s cubic-bezier(.2,.6,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  #hero{
+    position:relative;min-height:100svh;
+    display:block;
+    padding:80px clamp(24px,6vw,84px) 30px;
+    overflow:hidden;
+    isolation:isolate;
+    background:
+      radial-gradient(ellipse 54% 48% at 76% 28%, rgba(215,48,40,0.08), transparent 66%),
+      var(--bg);
+  }
+  #hero::after{
+    content:"";position:absolute;inset:45% 0 0;z-index:2;pointer-events:none;
+    background:linear-gradient(to bottom,transparent,rgba(5,5,5,.32) 44%,rgba(5,5,5,.92) 100%);
+  }
+  .hero-inner{
+    position:relative;width:100%;max-width:1600px;margin:0 auto;
+    height:calc(100svh - 110px);min-height:690px;
+  }
+  .hero-text{
+    position:absolute;left:0;bottom:clamp(82px,10vh,124px);z-index:3;
+    width:min(66vw,940px);
+  }
+  .hero-kicker{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:17px;}
+  .hero-kicker .red-dot{display:inline-block;width:7px;height:7px;background:var(--red);border-radius:50%;margin-right:12px;vertical-align:middle;}
+  .hero-title{font-family:var(--serif);font-weight:700;font-size:clamp(60px,8.5vw,136px);line-height:.94;letter-spacing:-3px;}
+  .hero-title .line{display:block;overflow:visible;}
+  .hero-title .line + .line{margin-top:.08em;}
+  .hero-title .line > span{display:block;opacity:0;transform:translateY(.32em);animation:rise 1.45s cubic-bezier(.16,.72,.18,1) forwards;}
+  .hero-title .line:nth-child(2) > span{animation-delay:.28s;}
+  .hero-title em{font-style:italic;font-weight:500;color:var(--paper);}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  .hero-sub{
+    font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:14px;letter-spacing:.2px;
+  }
+  .hero-cn{margin-top:22px;color:#b7bbc3;font-size:15px;max-width:520px;border-left:1px solid var(--line);padding-left:16px;}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:26px;margin-top:22px;}
+  .hero-cta .btn{border:0;border-bottom:1px solid var(--line);padding:4px 0 6px;font-size:11px;background:transparent;}
+  .hero-cta .btn.solid{background:transparent;color:var(--paper);}
+  .hero-sig{position:absolute;left:58%;bottom:3px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;white-space:nowrap;}
+  .hero-sig b{color:var(--gold);font-weight:500;}
+  .hero-portrait{
+    position:absolute;z-index:1;top:8px;right:clamp(-90px,-5vw,-34px);
+    width:min(72vw,1040px);height:calc(100% - 8px);pointer-events:none;
+  }
+  .hero-portrait .frame{
+    position:relative;width:100%;height:100%;overflow:visible;background:transparent;
+  }
+  .hero-portrait img{
+    width:100%;height:100%;object-fit:contain;object-position:right top;
+    filter:saturate(.96) contrast(1.02);
+    transition:transform 1.2s cubic-bezier(.2,.6,.2,1);
+  }
+  .scroll-cue{
+    position:absolute;z-index:3;bottom:26px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--muted);
+    writing-mode:horizontal-tb;display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .scroll-cue::after{content:"";width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:cue 2s infinite;}
+  @keyframes cue{0%{opacity:.2;transform:scaleY(.4);transform-origin:top;}50%{opacity:1;transform:scaleY(1);}100%{opacity:.2;transform:scaleY(.4);transform-origin:bottom;}}
+
+  /* ---------- 案例区（Midas / 腾讯） ---------- */
+  #cases{border-top:1px solid var(--line);}
+  .case-head{text-align:center;max-width:900px;margin:0 auto 70px;}
+  .case-head .eyebrow{margin-bottom:14px;}
+  .case-head .sec-sub{margin-top:12px;}
+  .case-head .lead{margin-left:auto;margin-right:auto;}
+
+  /* Midas */
+  #midas{background:var(--bg);}
+  .midas-hero{
+    display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,0.75fr);
+    gap:clamp(24px,4vw,60px);align-items:center;margin-bottom:70px;
+  }
+  .midas-map{margin-top:44px;position:relative;}
+  .midas-map .frame{position:relative;border:1px solid var(--line);background:var(--bg2);overflow:hidden;}
+  .midas-map img{width:100%;height:auto;display:block;}
+  .midas-map .tag{
+    position:absolute;top:-38px;left:0;font-family:var(--mono);font-size:11px;letter-spacing:2px;
+    color:var(--gold);padding:0;background:none;border:0;
+  }
+  .midas-map .tag::after{content:"";display:block;width:34px;height:1px;background:var(--gold);margin-top:8px;}
+  .midas-info .num-list{list-style:none;margin-top:30px;border-top:1px solid var(--line);}
+  .midas-info .num-list li{display:flex;align-items:baseline;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .midas-info .num-list .n{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--gold);min-width:70px;}
+  .midas-info .num-list .t{color:#cfcbc2;font-size:14px;}
+  .midas-loop{font-family:var(--serifsc);font-weight:600;font-size:clamp(15px,1.8vw,21px);letter-spacing:1px;color:var(--paper);margin-top:26px;}
+  .midas-loop .arrow{color:var(--gold);margin:0 10px;}
+
+  .midas-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2vw,30px);
+    margin-top:14px;
+  }
+  .mcell{position:relative;}
+  .mcell .shot{border:1px solid var(--line);background:var(--bg2);overflow:hidden;position:relative;}
+  .mcell .shot::before{
+    content:"";position:absolute;inset:0;z-index:2;
+    box-shadow:inset 0 0 0 0 rgba(232,199,90,0);
+    transition:box-shadow .4s;
+  }
+  .mcell:hover .shot::before{box-shadow:inset 0 0 0 1px rgba(232,199,90,.7);}
+  .mcell .shot img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:transform .6s;}
+  .mcell:hover .shot img{transform:scale(1.04);}
+  .mcell .step{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);margin-top:14px;text-transform:uppercase;}
+  .mcell .cap{font-size:14px;color:#cfcbc2;margin-top:4px;}
+  .mcell .cap b{color:var(--paper);font-weight:500;}
+  .mcell:nth-child(2){transform:translateY(26px);}
+  .mcell:nth-child(4){transform:translateY(26px);}
+
+  /* 腾讯 */
+  #tencent{background:var(--bg2);}
+  .tx-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:50px 0 60px;}
+  .tx-metric{background:var(--bg2);padding:34px 26px;text-align:left;}
+  .tx-metric .num{font-family:var(--serif);font-weight:800;font-size:clamp(34px,4.5vw,64px);line-height:1;}
+  .tx-metric .num .unit{font-size:.5em;color:var(--gold);}
+  .tx-metric .lab{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--muted);margin-top:12px;text-transform:uppercase;}
+  .tx-metric .desc{color:#cfcbc2;font-size:14px;margin-top:6px;}
+
+  .flow-wrap{margin:0 0 60px;}
+  .flow-title{font-family:var(--serifsc);font-weight:700;font-size:clamp(18px,2vw,24px);margin-bottom:20px;}
+  .flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;}
+  .flow-step{
+    flex:1 1 150px;padding:20px 16px;border:1px solid var(--line);background:rgba(255,255,255,0.02);
+    cursor:pointer;color:var(--muted);font-size:14px;text-align:center;transition:all .3s;position:relative;
+  }
+  .flow-step .idx{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px;}
+  .flow-step:hover{color:var(--paper);border-color:var(--gold);}
+  .flow-step.active{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:600;}
+  .flow-step.active .idx{color:rgba(5,5,5,.6);}
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px;padding:0 10px;flex:0 0 auto;}
+  .flow-detail{
+    margin-top:22px;padding:24px 26px;border:1px solid var(--line);background:rgba(255,255,255,0.02);
+    min-height:120px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .flow-detail .d{font-size:13px;color:var(--muted);}
+  .flow-detail .d b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;}
+  .flow-detail .d span{color:#cfcbc2;}
+
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .method{background:var(--bg2);padding:30px 26px;position:relative;}
+  .method .no{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:2px;}
+  .method h4{font-family:var(--serifsc);font-weight:700;font-size:19px;margin:14px 0 10px;}
+  .method p{color:var(--muted);font-size:14px;}
+
+  /* ---------- 其他案例（网易 + Pipeline） ---------- */
+  #others{background:var(--bg);}
+  .other-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .other-card{background:var(--bg);padding:clamp(30px,4vw,56px);}
+  .other-card.pipeline{order:-1;}
+  .other-card h3{font-family:var(--serif);font-weight:700;font-size:clamp(24px,2.6vw,38px);line-height:1.15;text-wrap:pretty;}
+  .other-card h3 em{font-style:italic;color:var(--gold);}
+  .other-card .desc{color:var(--muted);font-size:14px;margin-top:14px;max-width:520px;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+  .pill{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);border:1px solid var(--line);padding:7px 13px;}
+  .pill.g{color:var(--gold);border-color:rgba(232,199,90,.4);}
+  .pipe-flow{
+    margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:12px;
+  }
+  .pipe-step{color:var(--paper);border:1px solid rgba(232,199,90,.45);padding:8px 12px;background:rgba(232,199,90,0.06);}
+  .pipe-arrow{color:var(--gold);}
+  .pipe-metrics{display:flex;flex-wrap:wrap;gap:22px;margin-top:24px;}
+  .pipe-metrics .m .n{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--gold);}
+  .pipe-metrics .m .l{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;}
+  .decision-list{list-style:none;margin-top:24px;border-top:1px solid var(--line);}
+  .decision-list li{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);}
+  .decision-list li .q{font-family:var(--serifsc);color:var(--paper);font-weight:600;flex:0 0 46%;}
+
+  /* ---------- 摄影 ---------- */
+  #photo{background:var(--bg);}
+  .photo-stage{position:relative;max-width:1500px;margin:0 auto;aspect-ratio:16/10;min-height:780px;}
+  .photo-copy{position:absolute;z-index:3;left:42%;top:15%;width:44%;}
+  .photo-copy .sec-title{font-size:clamp(58px,7.8vw,122px);line-height:.9;}
+  .photo-copy .lead{max-width:390px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line);}
+  .pitem{
+    position:absolute;overflow:hidden;background:var(--bg2);z-index:1;
+  }
+  .pitem img{width:100%;height:auto;display:block;transition:transform .8s cubic-bezier(.2,.6,.2,1);}
+  .pitem:hover img{transform:scale(1.05);}
+  .pitem .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;
+    background:linear-gradient(transparent,rgba(5,5,5,0.85));
+    font-family:var(--serifsc);font-size:14px;color:#fff;letter-spacing:1px;
+    transform:translateY(8px);opacity:0;transition:all .4s;
+  }
+  .pitem:hover .cap{transform:none;opacity:1;}
+  .pitem.p1{left:13%;top:23%;width:24%;}
+  .pitem.p2{left:0;top:50%;width:10%;}
+  .pitem.p3{right:7%;top:27%;width:19%;}
+  .pitem.p4{right:26%;top:47%;width:13%;}
+  .pitem.p5{right:8%;top:60%;width:17%;}
+  .pitem.p6{left:40%;bottom:1%;width:21%;}
+
+  /* ---------- 经历 ---------- */
+  #experience{background:var(--bg2);}
+  .timeline{max-width:980px;margin:0 auto;}
+  .tline{border-top:1px solid var(--line);padding:30px 0;display:grid;grid-template-columns:200px 1fr;gap:26px;}
+  .tline .period{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:1px;}
+  .tline .org{font-family:var(--serifsc);font-weight:700;font-size:20px;}
+  .tline .role{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:4px;text-transform:uppercase;}
+  .tline .tags{margin-top:12px;}
+  .tline .tags .pill{font-size:11px;padding:5px 11px;}
+
+  /* ---------- About ---------- */
+  #about{background:var(--bg);}
+  .about-wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(18px,2.4vw,34px);align-items:start;max-width:1500px;margin:0 auto;}
+  .about-text{grid-column:1/5;position:sticky;top:120px;z-index:2;}
+  .about-text .sec-sub{margin-top:12px;}
+  .about-text p{color:#cfcbc2;font-size:15px;margin-top:20px;max-width:560px;}
+  .about-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+  .about-tags .pill{border-color:var(--line);}
+  .about-tags .pill.sig{color:var(--gold);border-color:rgba(232,199,90,.5);font-style:italic;}
+  .about-collage{
+    grid-column:5/13;display:grid;grid-template-columns:repeat(8,1fr);
+    gap:clamp(14px,2vw,28px);align-items:start;
+  }
+  .acard{position:relative;overflow:hidden;background:var(--bg2);}
+  .acard img{width:100%;height:auto;display:block;transition:transform .8s;}
+  .acard:hover img{transform:scale(1.05);}
+  .acard .cap{position:absolute;left:12px;bottom:12px;font-family:var(--serifsc);font-size:13px;color:#fff;background:rgba(5,5,5,0.6);padding:6px 12px;letter-spacing:1px;}
+  .acard.a1{grid-column:1/4;margin-top:130px;}
+  .acard.a2{grid-column:4/9;}
+  .acard.a3{grid-column:1/5;margin-top:4px;}
+  .acard.a4{grid-column:5/9;margin-top:72px;}
+
+  /* ---------- Contact ---------- */
+  #contact{background:var(--bg);border-top:1px solid var(--line);text-align:center;padding-bottom:80px;}
+  .contact-title{
+    font-family:var(--serif);font-weight:800;font-size:clamp(40px,8vw,120px);
+    line-height:0.98;letter-spacing:-2px;max-width:1000px;margin:0 auto;text-wrap:balance;
+  }
+  .contact-title em{font-style:italic;font-weight:600;color:var(--gold);}
+  .contact-sub{color:var(--muted);font-size:15px;margin-top:22px;}
+  .contact-list{display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin-top:48px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:900px;margin-left:auto;margin-right:auto;}
+  .contact-item{flex:1 1 220px;padding:26px 20px;border-left:1px solid var(--line);}
+  .contact-item:first-child{border-left:0;}
+  .contact-item .k{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+  .contact-item .v{font-family:var(--serif);font-size:19px;margin-top:10px;color:var(--paper);}
+  .contact-item a.v:hover{color:var(--gold);}
+  .contact-cta{margin-top:46px;}
+  footer{padding:34px clamp(24px,5vw,72px);border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);}
+  footer .g{color:var(--gold);}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:1024px){
+    .nav-links{gap:18px;font-size:11px;}
+    .nav-mail{font-size:12.5px;}
+    .hero-inner{height:calc(100svh - 110px);min-height:700px;}
+    .hero-text{width:min(78vw,760px);bottom:74px;}
+    .hero-portrait{right:-12vw;width:86vw;height:78%;}
+    .hero-sig{left:auto;right:0;}
+    .midas-hero{grid-template-columns:1fr;}
+    .midas-grid{grid-template-columns:repeat(2,1fr);}
+    .mcell:nth-child(2),.mcell:nth-child(4){transform:none;}
+    .flow-detail{grid-template-columns:1fr;}
+    .tx-metrics{grid-template-columns:1fr;}
+    .method-grid{grid-template-columns:1fr;}
+    .other-grid{grid-template-columns:1fr;}
+    .photo-stage{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;aspect-ratio:auto;min-height:0;}
+    .photo-copy{position:relative;left:auto;top:auto;width:auto;grid-column:1/-1;margin-bottom:30px;}
+    .pitem{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto!important;}
+    .pitem.p1{grid-column:1/6;}.pitem.p2{grid-column:6/9;margin-top:80px;}.pitem.p3{grid-column:9/13;margin-top:20px;}
+    .pitem.p4{grid-column:2/5;}.pitem.p5{grid-column:5/9;margin-top:70px;}.pitem.p6{grid-column:9/13;}
+    .about-wrap{grid-template-columns:1fr;}
+    .about-text{grid-column:1;position:relative;top:auto;}
+    .about-collage{grid-column:1;margin-top:30px;}
+    .tline{grid-template-columns:1fr;gap:10px;}
+  }
+  @media (max-width:720px){
+    .nav-links{display:none;}
+    #hero{padding-top:72px;}
+    #hero::after{inset:28% 0 0;}
+    .hero-inner{height:calc(100svh - 92px);min-height:700px;}
+    .hero-portrait{top:26px;right:-28%;width:122%;height:61%;}
+    .hero-text{left:0;bottom:18px;width:100%;}
+    .hero-title{font-size:clamp(54px,17vw,88px);line-height:.96;letter-spacing:-2px;}
+    .hero-title .line + .line{margin-top:.05em;}
+    .hero-cn{margin-top:18px;}
+    .hero-cta{gap:20px;margin-top:17px;}
+    .hero-sig{position:static;margin-top:14px;}
+    .scroll-cue{display:none;}
+    .midas-grid{grid-template-columns:1fr;}
+    .photo-stage{grid-template-columns:1fr 1fr;gap:12px;}
+    .photo-copy{grid-column:1/-1;}
+    .photo-copy .sec-title{font-size:clamp(46px,15vw,72px);}
+    .pitem.p1,.pitem.p4{grid-column:1;}
+    .pitem.p2,.pitem.p3,.pitem.p5,.pitem.p6{grid-column:2;}
+    .pitem.p2,.pitem.p3,.pitem.p4,.pitem.p5,.pitem.p6{margin-top:0;}
+    .about-collage{grid-template-columns:1fr 1fr;gap:12px;}
+    .acard.a1,.acard.a2,.acard.a3,.acard.a4{grid-column:auto;margin-top:0;}
+    .acard.a2{grid-column:1/-1;}
+    .contact-list{flex-direction:column;}
+    .contact-item{border-left:0;border-bottom:1px solid var(--line);}
+    .contact-item:last-child{border-bottom:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<nav>
+  <div class="brand">
+    <span class="cn">余婉婷</span>
+    <span class="en">/ Wanting Yu</span>
+  </div>
+  <div class="nav-links">
+    <a href="#cases">Cases</a>
+    <a href="#experience">Experience</a>
+    <a href="#about">About</a>
+    <a href="#photo">Photography</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-mail" href="mailto:2320138550@qq.com">2320138550@qq.com</a>
+</nav>
+
+<!-- ===== Hero ===== -->
+<header id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-kicker"><span class="red-dot"></span>AI 产品 / AI 产品运营 / AIGC 产品运营</div>
+      <h1 class="hero-title">
+        <span class="line"><span>Learning AI</span></span>
+        <span class="line"><span>by <em>Building</em></span></span>
+      </h1>
+      <div class="hero-sub">Make AI Work Like Magic, Not Noise.</div>
+      <p class="hero-cn">我想做 AI 产品，也在用真实项目补齐这件事。</p>
+      <div class="hero-cta">
+        <a class="btn" href="#cases">查看案例</a>
+        <a class="btn" href="#contact">联系我</a>
+        <a class="btn red-line" href="assets/Wanting-Yu-Resume.pdf" download="余婉婷简历.pdf">下载简历</a>
+      </div>
+      <div class="hero-sig">aka <b>watttt</b> · Portfolio 2026</div>
+    </div>
+    <div class="hero-portrait">
+      <div class="frame">
+        <img src="assets/hero-retouched-v2.png" alt="余婉婷">
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</header>
+
+<!-- ===== Midas 主案例 ===== -->
+<section id="cases">
+  <div class="case-head reveal">
+    <div class="eyebrow">Featured Product</div>
+    <h2 class="sec-title">Midas｜AI 求职学习与<br>面试转化产品</h2>
+    <div class="sec-sub">PRODUCT · 2026</div>
+    <p class="lead">点石成金 Midas 是一款面向 AI 求职转型者的学习与面试转化产品，针对"资料多、路径乱、学完难表达"的问题，把传统"知识库问答"重新定义为"课程资料到面试表达的能力转化"。</p>
+  </div>
+
+  <div class="midas-hero reveal">
+    <div class="midas-map">
+      <span class="tag">AI 能力地图</span>
+      <div class="frame">
+        <img src="https://aka.doubaocdn.com/s/4zCNgAzfQe" alt="Midas 知识地图">
+      </div>
+    </div>
+    <div class="midas-info">
+      <div class="mono" style="font-size:12px;letter-spacing:3px;color:var(--gold);">产品闭环</div>
+      <div class="midas-loop">资料整理 <span class="arrow">→</span> 结构化学习 <span class="arrow">→</span> 掌握检查 <span class="arrow">→</span> 面试表达</div>
+      <ul class="num-list">
+        <li><span class="n">8 类</span><span class="t">知识主题，覆盖 AI 求职学习主干</span></li>
+        <li><span class="n">28 个</span><span class="t">概念节点，形成可复用的能力体系</span></li>
+        <li><span class="n">Web MVP</span><span class="t">通过 Vibe Coding 独立搭建、可点击验证</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="midas-grid reveal">
+    <div class="mcell">
+      <div class="shot"><img src="https://aka.doubaocdn.com/s/GASVPbtSLp" alt="资料来源"></div>
+      <div class="step">01 · 资料整理</div>
+      <div class="cap"><b>资料来源</b> 课程 / 文档 / 视频，统一入库</div>
+    </div>
+    <div class="mcell">
+      <div class="shot"><img src="https://aka.doubaocdn.com/s/Lc9MFdCCT9" alt="今日点亮"></div>
+      <div class="step">02 · 结构化学习</div>
+      <div class="cap"><b>今日点亮</b> 把大目标拆成每日学习任务</div>
+    </div>
+    <div class="mcell">
+      <div class="shot"><img src="https://aka.doubaocdn.com/s/6zUPUMwrg9" alt="掌握进度"></div>
+      <div class="step">03 · 掌握检查</div>
+      <div class="cap"><b>掌握进度</b> 实时反馈，形成闭环</div>
+    </div>
+    <div class="mcell">
+      <div class="shot"><img src="https://aka.doubaocdn.com/s/DK4jbMYRa4" alt="面试素材"></div>
+      <div class="step">04 · 面试表达</div>
+      <div class="cap"><b>面试素材</b> 学过的，能说出来</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 腾讯主案例 ===== -->
+<section id="tencent">
+  <div class="case-head reveal">
+    <div class="eyebrow">AI 短视频生产工作流</div>
+    <h2 class="sec-title">腾讯｜产品运营<br><em class="accent">Multi-Agent Workflow</em></h2>
+    <div class="sec-sub">TENCENT · CONTENT GROWTH · 2026</div>
+    <p class="lead">针对 3 人内容团队产能不足的问题，基于 WorkBuddy 搭建"生成—剪辑—审核"多 Agent 工作流，把团队 KM、内容规范和历史经验转化为可复用的自动化生产流程。</p>
+    <div style="font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--gold);margin-top:18px;">角色 · 产品运营 / 内容增长 — 我做的事，不是岗位罗列</div>
+  </div>
+
+  <div class="tx-metrics reveal">
+    <div class="tx-metric"><div class="num">30<span class="unit">万+</span></div><div class="lab">全网粉丝增长</div><div class="desc">3 个月 · 官方账号矩阵</div></div>
+    <div class="tx-metric"><div class="num">4<span class="unit">×</span></div><div class="lab">人均日产能</div><div class="desc">0.5 条 → 2 条</div></div>
+    <div class="tx-metric"><div class="num">80<span class="unit">%</span></div><div class="lab">成片可用率</div><div class="desc">较初版提升 20 个百分点</div></div>
+    <div class="tx-metric"><div class="num">持平</div><div class="lab">效果</div><div class="desc">同账号实投综合表现达到原人工水平</div></div>
+  </div>
+
+  <div class="flow-wrap reveal">
+    <div class="flow-title">解决方案</div>
+    <div class="flow" id="txFlow">
+      <button class="flow-step" data-i="0"><span class="idx">01</span>选题与 KM</button>
+      <div class="flow-arrow">→</div>
+      <button class="flow-step" data-i="1"><span class="idx">02</span>Seedance 生成</button>
+      <div class="flow-arrow">→</div>
+      <button class="flow-step" data-i="2"><span class="idx">03</span>GLM-5.2 驱动剪辑</button>
+      <div class="flow-arrow">→</div>
+      <button class="flow-step" data-i="3"><span class="idx">04</span>审核 Agent</button>
+      <div class="flow-arrow">→</div>
+      <button class="flow-step" data-i="4"><span class="idx">05</span>人工发布</button>
+    </div>
+    <div class="flow-detail" id="txDetail">
+      <div class="d"><b>Input</b><span>选题、团队知识库 KM、内容规范</span></div>
+      <div class="d"><b>Output</b><span>生产指令与上下文包</span></div>
+      <div class="d"><b>Human</b><span>在此处定方向、确认规则</span></div>
+    </div>
+  </div>
+
+  <div class="method-grid reveal">
+    <div class="method"><div class="no">M/01</div><h4>模型选型</h4><p>建立模型 Benchmark，以质量、时延和"单条可用视频成本"完成选型与任务路由。</p></div>
+    <div class="method"><div class="no">M/02</div><h4>记忆管理</h4><p>使用 Rules、Skills 和 KM 知识库管理业务规则与上下文，避免不同视频任务之间的记忆污染。</p></div>
+    <div class="method"><div class="no">M/03</div><h4>审核返工</h4><p>设计结构化审核与定向返工机制，素材问题退回生成环节、剪辑问题退回剪辑环节。</p></div>
+  </div>
+</section>
+
+<!-- ===== 其他案例：网易 + Pipeline ===== -->
+<section id="others">
+  <div class="case-head reveal">
+    <div class="eyebrow">More Proof</div>
+    <h2 class="sec-title">其他案例</h2>
+    <div class="sec-sub">短视频知识萃取 Pipeline / 网易 · AIGC 生产与评测</div>
+  </div>
+
+  <div class="other-grid reveal">
+    <div class="other-card netease">
+      <h3>网易｜<em>AIGC 内容生产</em>与模型能力评测</h3>
+      <p class="desc">负责 AIGC 视频生产与模型评测，沉淀可复用的 Prompt 库与多风格参数模板。</p>
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--gold);margin-top:18px;">2025.11 — 2026.03 · 网易传媒科技（北京）</div>
+      <div class="pill-row">
+        <span class="pill g">20+ 支 AI 视频</span>
+        <span class="pill">Prompt 库 / 多风格模板</span>
+        <span class="pill g">横评 Sora · 可灵 · Seed</span>
+      </div>
+      <ul class="decision-list" style="margin-top:26px;">
+        <li><span class="q">评测维度</span><span>语义理解 · 生成可控性 · 画面一致性 · 风格适配</span></li>
+        <li><span class="q">输出</span><span>产品体验报告与竞品分析</span></li>
+      </ul>
+    </div>
+    <div class="other-card pipeline">
+      <h3>短视频知识萃取 <em>Agent Pipeline</em></h3>
+      <p class="desc">把收藏夹变成求职知识库——用浏览器自动化 + ASR + LLM 把 200+ 条视频沉淀为结构化知识资产。</p>
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--gold);margin-top:18px;">个人项目 · 2026 · Vibe Coding</div>
+      <div class="pipe-flow">
+        <span class="pipe-step">抖音收藏夹</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">浏览器自动化</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">ASR 转写</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">LLM 修正</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">11 类路由</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">知识卡片</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">Obsidian</span><span class="pipe-arrow">→</span>
+        <span class="pipe-step">求职资产</span>
+      </div>
+      <div class="pipe-metrics">
+        <div class="m"><div class="n">200+</div><div class="l">视频</div></div>
+        <div class="m"><div class="n">11 类</div><div class="l">智能分类</div></div>
+        <div class="m"><div class="n">180+</div><div class="l">知识卡片</div></div>
+        <div class="m"><div class="n">300+</div><div class="l">求职资产</div></div>
+      </div>
+      <ul class="decision-list">
+        <li><span class="q">交叉内容如何分类</span><span>多标签路由 + 人工复核</span></li>
+        <li><span class="q">LLM 输出质量如何保证</span><span>140+ 数据修正记录</span></li>
+        <li><span class="q">如何避免变成另一个收藏夹</span><span>以求职资产为目标的结构化沉淀</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 经历 ===== -->
+<section id="experience">
+  <div class="case-head reveal">
+    <div class="eyebrow">Experience</div>
+    <h2 class="sec-title">正式经历</h2>
+  </div>
+  <div class="timeline reveal">
+    <div class="tline">
+      <div class="period">2026.05 — 至今</div>
+      <div>
+        <div class="org">腾讯科技（深圳）有限公司</div>
+        <div class="role">产品运营 · Content Growth</div>
+        <div class="tags">
+          <span class="pill">游戏社区运营</span><span class="pill">内容增长</span><span class="pill">多 Agent 工作流</span><span class="pill">数据看板</span><span class="pill">用户与 KOC 运营</span>
+        </div>
+      </div>
+    </div>
+    <div class="tline">
+      <div class="period">2025.11 — 2026.03</div>
+      <div>
+        <div class="org">网易传媒科技（北京）</div>
+        <div class="role">AI 应用 · AIGC</div>
+        <div class="tags">
+          <span class="pill">AIGC 视频生产</span><span class="pill">Prompt SOP</span><span class="pill">模型评测</span><span class="pill">AI 社区竞品分析</span><span class="pill">产品体验报告</span>
+        </div>
+      </div>
+    </div>
+    <div class="tline">
+      <div class="period">2024.09 — 2027.06</div>
+      <div>
+        <div class="org">西安交通大学</div>
+        <div class="role">新闻与新媒体 · 硕士</div>
+      </div>
+    </div>
+    <div class="tline">
+      <div class="period">2019.08 — 2023.06</div>
+      <div>
+        <div class="org">西安交通大学</div>
+        <div class="role">机械工程 · 本科</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-text reveal">
+      <div class="eyebrow">About Me</div>
+      <h2 class="sec-title">ABOUT <em class="accent">ME</em></h2>
+      <div class="sec-sub">一个在用项目靠近 AI 产品的人</div>
+      <p>我以前很容易被"好内容"吸引，现在更想知道：它为什么有效，用户为什么愿意看、愿意用、愿意留下来。</p>
+      <p>AI 出现以后，我对这个问题更感兴趣了。因为很多产品不再只是设计页面和流程，还要理解模型能力、内容质量、用户预期和人机协作方式。</p>
+      <p>我的经历还不算传统，但我正在把每一段经历都往 AI 产品能力上沉淀：在腾讯做内容增长和 Agent 工作流，在网易做 AIGC 生产和模型评测，在个人项目里做知识系统和 AI 学习产品。对我来说，最重要的是持续做出东西，然后从结果里修正判断。</p>
+      <div class="about-tags">
+        <span class="pill">工科逻辑</span><span class="pill">新媒体敏感</span><span class="pill">摄影 / 舞蹈 / 美食</span><span class="pill sig">aka watttt</span><span class="pill sig">AI product in progress</span>
+      </div>
+    </div>
+    <div class="about-collage reveal">
+      <div class="acard a1"><img src="https://aka.doubaocdn.com/s/NhiqZBgUP0" alt="山湖之间"><span class="cap">山湖之间</span></div>
+      <div class="acard a2"><img src="https://aka.doubaocdn.com/s/tQ0gjOJPMC" alt="夏日出行"><span class="cap">夏日 · 出行</span></div>
+      <div class="acard a3"><img src="https://aka.doubaocdn.com/s/SY18YiRn87" alt="海边岩石"><span class="cap">海边 · 岩石</span></div>
+      <div class="acard a4"><img src="https://aka.doubaocdn.com/s/eVaZ2bSOnh" alt="二手书店"><span class="cap">书店 · 周末</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 摄影作品 ===== -->
+<section id="photo">
+  <div class="photo-stage reveal">
+    <div class="photo-copy">
+      <div class="eyebrow">Visual Explorations</div>
+      <h2 class="sec-title">摄影作品</h2>
+      <div class="sec-sub">PHOTOGRAPHY · 城市 / 自然 / 人像</div>
+      <p class="lead">镜头记录的另一面：街巷、光影与路上的人。</p>
+    </div>
+    <div class="pitem p1"><img src="https://aka.doubaocdn.com/s/gkqNarQlVM" alt="北京古今同框"><span class="cap">北京 · 古今同框</span></div>
+    <div class="pitem p2"><img src="https://aka.doubaocdn.com/s/Y3JCT0vhA6" alt="春日樱"><span class="cap">春日 · 樱</span></div>
+    <div class="pitem p3"><img src="https://aka.doubaocdn.com/s/LDr5L9GzNC" alt="水下锦鲤"><span class="cap">水下 · 锦鲤</span></div>
+    <div class="pitem p4"><img src="https://aka.doubaocdn.com/s/V0V7XGQgGY" alt="香港街巷夜色"><span class="cap">香港 · 街巷夜色</span></div>
+    <div class="pitem p5"><img src="https://aka.doubaocdn.com/s/iBzvkMlEuy" alt="街头草帽"><span class="cap">街头 · 草帽</span></div>
+    <div class="pitem p6"><img src="https://aka.doubaocdn.com/s/oGlTmOa8Kn" alt="香港街角"><span class="cap">香港 · 街角</span></div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section id="contact">
+  <div class="contact-title reveal">LET'S BUILD <em>SOMETHING USEFUL.</em></div>
+  <p class="contact-sub">欢迎联系我。</p>
+  <div class="contact-list reveal">
+    <div class="contact-item"><div class="k">Email</div><a class="v" href="mailto:2320138550@qq.com">2320138550@qq.com</a></div>
+    <div class="contact-item"><div class="k">Resume</div><a class="v" href="assets/Wanting-Yu-Resume.pdf" download="余婉婷简历.pdf">下载 PDF 简历</a></div>
+  </div>
+  <div class="contact-cta reveal">
+    <a class="btn solid" href="mailto:2320138550@qq.com">联系我</a>
+  </div>
+</section>
+
+<footer>
+  <div><span class="g">余婉婷</span> / Wanting Yu · aka watttt</div>
+  <div>© 2026 Wanting Yu · Learning AI by Building</div>
+</footer>
+
+<script>
+  // 滚动入场
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Hero 人像视差（克制）
+  const portrait = document.querySelector('.hero-portrait');
+  const hero = document.getElementById('hero');
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const rect = hero.getBoundingClientRect();
+      const p = Math.min(1, Math.max(-1, (rect.top + rect.height/2 - window.innerHeight/2) / window.innerHeight));
+      if(portrait) portrait.style.transform = 'translateY(' + (p * -22) + 'px)';
+      ticking = false;
+    });
+  }, {passive:true});
+
+  // 腾讯流程交互
+  const steps = document.querySelectorAll('.flow-step');
+  const detail = document.getElementById('txDetail');
+  const details = [
+    {
+      input:'选题、团队知识库 KM、内容规范',
+      output:'生产指令与上下文包',
+      human:'在此处定方向、确认规则',
+      value:'让生产起点可复用、不散落'
+    },
+    {
+      input:'脚本与生产指令',
+      output:'初版视频素材',
+      human:'抽查画面是否符合预期',
+      value:'以较低成本批量产出素材'
+    },
+    {
+      input:'初版素材',
+      output:'粗剪成片',
+      human:'判断节奏与剪辑质量',
+      value:'剪辑环节自动化，解放人力'
+    },
+    {
+      input:'成片与规范',
+      output:'质检结果 / 返工单',
+      human:'审核是否通过、是否返工',
+      value:'结构化审核，问题定向回溯'
+    },
+    {
+      input:'合格成片',
+      output:'上线内容与数据回流',
+      human:'最终人工发布',
+      value:'数据回流，持续优化流程'
+    }
+  ];
+  function renderFlow(i){
+    steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
+    const d = details[i];
+    detail.innerHTML =
+      '<div class="d"><b>Input</b><span>'+d.input+'</span></div>'+
+      '<div class="d"><b>Output</b><span>'+d.output+'</span></div>'+
+      '<div class="d"><b>Human</b><span>'+d.human+'</span></div>'+
+      '<div class="d" style="grid-column:1/-1;border-top:1px solid var(--line);padding-top:12px;"><b>Product Value</b><span>'+d.value+'</span></div>';
+  }
+  steps.forEach((s,idx)=>{
+    s.addEventListener('click', ()=>renderFlow(idx));
+  });
+  renderFlow(0);
+</script>
+</body>
+</html>
