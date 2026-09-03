@@ -54,8 +54,8 @@
   .nav-links a:hover{color:var(--paper);}
   .nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
   .nav-links a:hover::after{width:100%;}
-  .nav-mail{font-family:var(--mono);font-size:13.5px;color:#aeb3bd;letter-spacing:.2px;}
-  .nav-mail:hover{color:var(--gold);}
+  .nav-resume{font-family:var(--mono);font-size:13.5px;color:#aeb3bd;letter-spacing:2.4px;text-transform:uppercase;}
+  .nav-resume:hover{color:var(--gold);}
 
   /* ---------- 通用区块 ---------- */
   section{position:relative;padding:clamp(90px,12vh,150px) clamp(24px,6vw,84px);}
@@ -309,8 +309,34 @@
   .tline .tags{margin-top:12px;}
   .tline .tags .pill{font-size:11px;padding:5px 11px;}
 
+  /* ---------- 荣誉 ---------- */
+  #honors{background:var(--bg);border-top:1px solid var(--line);}
+  .honors-wrap{max-width:1400px;margin:0 auto;}
+  .honors-head{display:grid;grid-template-columns:minmax(0,.8fr) minmax(300px,1.2fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:56px;}
+  .honors-head .lead{margin:0 0 5px auto;max-width:620px;}
+  .awards-featured{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .award-card{position:relative;background:var(--bg);padding:clamp(28px,4vw,54px);min-height:220px;overflow:hidden;transition:background .35s;}
+  .award-card:hover{background:#0d0d0d;}
+  .award-card.primary{grid-row:span 2;min-height:500px;background:linear-gradient(145deg,rgba(232,199,90,.08),transparent 48%),var(--bg);}
+  .award-card.primary::after{content:"01";position:absolute;right:-10px;bottom:-58px;font-family:var(--serif);font-size:clamp(150px,20vw,300px);font-weight:800;line-height:1;color:rgba(255,255,255,.025);pointer-events:none;}
+  .award-meta{display:flex;align-items:center;justify-content:space-between;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+  .award-level{color:var(--gold);text-align:right;}
+  .award-card h3{position:relative;z-index:1;font-family:var(--serifsc);font-size:clamp(22px,2.8vw,42px);line-height:1.35;font-weight:700;max-width:720px;margin-top:48px;text-wrap:pretty;}
+  .award-card:not(.primary) h3{font-size:clamp(20px,2vw,29px);margin-top:30px;}
+  .award-card h3 em{display:block;margin-top:12px;color:var(--gold);font-family:var(--serif);font-size:.72em;font-weight:600;font-style:italic;}
+  .award-card p{position:relative;z-index:1;margin-top:24px;color:#b7bbc3;font-size:14px;max-width:680px;}
+  .honors-personal{margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .honors-personal-title{padding:18px 0 14px;font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+  .honors-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);}
+  .honor-item{padding:24px clamp(16px,2.5vw,34px);border-left:1px solid var(--line);}
+  .honor-item:first-child{border-left:0;}
+  .honor-item .year{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);}
+  .honor-item .name{margin-top:8px;font-family:var(--serifsc);font-size:17px;font-weight:600;}
+  .other-honors{margin-top:20px;font-family:var(--mono);font-size:10px;line-height:1.9;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase;}
+  .other-honors b{color:#c9c5bc;font-weight:500;}
+
   /* ---------- About ---------- */
-  #about{background:var(--bg);}
+  #about{background:var(--bg2);}
   .about-wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(18px,2.4vw,34px);align-items:start;max-width:1500px;margin:0 auto;}
   .about-text{grid-column:1/5;position:sticky;top:120px;z-index:2;}
   .about-text .sec-sub{margin-top:12px;}
@@ -323,13 +349,17 @@
     gap:clamp(14px,2vw,28px);align-items:start;
   }
   .acard{position:relative;overflow:hidden;background:var(--bg2);}
-  .acard img{width:100%;height:auto;display:block;transition:transform .8s;}
+  .acard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s;}
   .acard:hover img{transform:scale(1.05);}
   .acard .cap{position:absolute;left:12px;bottom:12px;font-family:var(--serifsc);font-size:13px;color:#fff;background:rgba(5,5,5,0.6);padding:6px 12px;letter-spacing:1px;}
-  .acard.a1{grid-column:1/4;margin-top:130px;}
-  .acard.a2{grid-column:4/9;}
-  .acard.a3{grid-column:1/5;margin-top:4px;}
-  .acard.a4{grid-column:5/9;margin-top:72px;}
+  .acard.a1{grid-column:1/4;margin-top:92px;aspect-ratio:3/4;}
+  .acard.a2{grid-column:4/9;aspect-ratio:4/3;}
+  .about-note{
+    grid-column:1/9;margin-top:6px;padding:clamp(24px,3.5vw,42px);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .about-note .k{font-family:var(--mono);font-size:10px;letter-spacing:2.4px;color:var(--gold);text-transform:uppercase;}
+  .about-note p{margin-top:14px;color:#b7bbc3;font-size:14px;line-height:1.9;}
 
   /* ---------- Contact ---------- */
   #contact{background:var(--bg);border-top:1px solid var(--line);text-align:center;padding-bottom:80px;}
@@ -352,7 +382,7 @@
   /* ---------- 响应式 ---------- */
   @media (max-width:1024px){
     .nav-links{gap:18px;font-size:11px;}
-    .nav-mail{font-size:12.5px;}
+    .nav-resume{font-size:12.5px;}
     .hero-inner{height:calc(100svh - 110px);min-height:700px;}
     .hero-text{width:min(78vw,760px);bottom:74px;}
     .hero-portrait{right:-12vw;width:86vw;height:78%;}
@@ -373,6 +403,13 @@
     .about-text{grid-column:1;position:relative;top:auto;}
     .about-collage{grid-column:1;margin-top:30px;}
     .tline{grid-template-columns:1fr;gap:10px;}
+    .honors-head{grid-template-columns:1fr;}
+    .honors-head .lead{margin:0;}
+    .awards-featured{grid-template-columns:1fr;}
+    .award-card.primary{grid-row:auto;min-height:390px;}
+    .honors-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .honor-item:nth-child(odd){border-left:0;}
+    .honor-item:nth-child(n+3){border-top:1px solid var(--line);}
   }
   @media (max-width:720px){
     .nav-links{display:none;}
@@ -388,6 +425,9 @@
     .hero-sig{position:static;margin-top:14px;}
     .scroll-cue{display:none;}
     .midas-grid{grid-template-columns:1fr;}
+    .honors-strip{grid-template-columns:1fr;}
+    .honor-item{border-left:0;border-top:1px solid var(--line);}
+    .honor-item:first-child{border-top:0;}
     .photo-stage{grid-template-columns:1fr 1fr;gap:12px;}
     .photo-copy{grid-column:1/-1;}
     .photo-copy .sec-title{font-size:clamp(46px,15vw,72px);}
@@ -395,8 +435,9 @@
     .pitem.p2,.pitem.p3,.pitem.p5,.pitem.p6{grid-column:2;}
     .pitem.p2,.pitem.p3,.pitem.p4,.pitem.p5,.pitem.p6{margin-top:0;}
     .about-collage{grid-template-columns:1fr 1fr;gap:12px;}
-    .acard.a1,.acard.a2,.acard.a3,.acard.a4{grid-column:auto;margin-top:0;}
+    .acard.a1,.acard.a2{grid-column:auto;margin-top:0;}
     .acard.a2{grid-column:1/-1;}
+    .about-note{grid-column:1/-1;margin-top:0;}
     .contact-list{flex-direction:column;}
     .contact-item{border-left:0;border-bottom:1px solid var(--line);}
     .contact-item:last-child{border-bottom:0;}
@@ -414,11 +455,11 @@
   <div class="nav-links">
     <a href="#cases">Cases</a>
     <a href="#experience">Experience</a>
+    <a href="#honors">Honors</a>
     <a href="#about">About</a>
     <a href="#photo">Photography</a>
-    <a href="#contact">Contact</a>
   </div>
-  <a class="nav-mail" href="mailto:2320138550@qq.com">2320138550@qq.com</a>
+  <a class="nav-resume" href="assets/Wanting-Yu-Resume.pdf" download="余婉婷简历.pdf">Resume</a>
 </nav>
 
 <!-- ===== Hero ===== -->
@@ -639,25 +680,76 @@
   </div>
 </section>
 
+<!-- ===== 荣誉与奖项 ===== -->
+<section id="honors" class="grid-bg">
+  <div class="honors-wrap">
+    <div class="honors-head reveal">
+      <div>
+        <div class="eyebrow">Selected Honors</div>
+        <h2 class="sec-title">荣誉与<br><em class="accent">奖项</em></h2>
+      </div>
+      <p class="lead">用工程实践、数字创意与持续学习证明执行力——奖项之外，更重要的是我在项目里真正完成的工作。</p>
+    </div>
+
+    <div class="awards-featured reveal">
+      <article class="award-card primary">
+        <div class="award-meta"><span>2022.08</span><span class="award-level">National · First Prize</span></div>
+        <div>
+          <h3>第十五届全国大学生节能减排社会实践与科技竞赛<em>国家一等奖</em></h3>
+          <p>参与“油净烟无——一种结构仿生的自清洁油雾捕集锥刺”项目，负责仿真建模、实验记录与成果视频总结。</p>
+        </div>
+      </article>
+
+      <article class="award-card">
+        <div class="award-meta"><span>2025.08</span><span class="award-level">National · Third Prize</span></div>
+        <h3>中国好创意暨全国数字艺术设计大赛<em>国赛三等奖</em></h3>
+        <p>参与数字艺术作品策划、内容表达与视觉呈现。</p>
+      </article>
+
+      <article class="award-card">
+        <div class="award-meta"><span>2022.05</span><span class="award-level">Campus · Grand Prize</span></div>
+        <h3>西安交通大学“腾飞杯”创新创业大赛<em>创新道 · 校级特等奖</em></h3>
+        <p>参与项目实践、成果梳理与展示表达。</p>
+      </article>
+    </div>
+
+    <div class="honors-personal reveal">
+      <div class="honors-personal-title">Individual Recognition · 个人荣誉</div>
+      <div class="honors-strip">
+        <div class="honor-item"><div class="year">2025.10</div><div class="name">西安交通大学优秀研究生</div></div>
+        <div class="honor-item"><div class="year">2025.11</div><div class="name">校一等奖学金</div></div>
+        <div class="honor-item"><div class="year">2020.10</div><div class="name">国家励志奖学金</div></div>
+        <div class="honor-item"><div class="year">2021.10</div><div class="name">SMC励志奖学金</div></div>
+        <div class="honor-item"><div class="year">2022.01</div><div class="name">第十四届全运会杰出志愿者</div></div>
+      </div>
+    </div>
+
+    <div class="other-honors reveal"><b>Other Recognitions</b> · 陕西省大学生艺术展演二等奖 / 中国青少年微电影大赛大学组优秀作品</div>
+  </div>
+</section>
+
 <!-- ===== About ===== -->
 <section id="about">
   <div class="about-wrap">
     <div class="about-text reveal">
       <div class="eyebrow">About Me</div>
       <h2 class="sec-title">ABOUT <em class="accent">ME</em></h2>
-      <div class="sec-sub">一个在用项目靠近 AI 产品的人</div>
-      <p>我以前很容易被"好内容"吸引，现在更想知道：它为什么有效，用户为什么愿意看、愿意用、愿意留下来。</p>
+      <div class="sec-sub">产品判断 × 内容表达 × 视觉审美</div>
+      <p>我以前很容易被"好内容"吸引，现在更想知道：它为什么有效，用户为什么愿意看、愿意用、愿意留下来。长期的摄影、影像与内容创作经历，让我不仅关注产品是否可用，也在意信息如何被看见、理解和记住。</p>
       <p>AI 出现以后，我对这个问题更感兴趣了。因为很多产品不再只是设计页面和流程，还要理解模型能力、内容质量、用户预期和人机协作方式。</p>
       <p>我的经历还不算传统，但我正在把每一段经历都往 AI 产品能力上沉淀：在腾讯做内容增长和 Agent 工作流，在网易做 AIGC 生产和模型评测，在个人项目里做知识系统和 AI 学习产品。对我来说，最重要的是持续做出东西，然后从结果里修正判断。</p>
       <div class="about-tags">
-        <span class="pill">工科逻辑</span><span class="pill">新媒体敏感</span><span class="pill">摄影 / 舞蹈 / 美食</span><span class="pill sig">Vibe Coding Builder</span><span class="pill sig">aka watttt</span><span class="pill sig">AI product in progress</span>
+        <span class="pill">工科逻辑</span><span class="pill">视觉审美 / 内容表达</span><span class="pill">摄影 / 舞蹈 / 美食</span><span class="pill sig">Vibe Coding Builder</span><span class="pill sig">aka watttt</span><span class="pill sig">AI product in progress</span>
       </div>
     </div>
     <div class="about-collage reveal">
-      <div class="acard a1"><img src="https://aka.doubaocdn.com/s/NhiqZBgUP0" alt="山湖之间"><span class="cap">山湖之间</span></div>
-      <div class="acard a2"><img src="https://aka.doubaocdn.com/s/tQ0gjOJPMC" alt="夏日出行"><span class="cap">夏日 · 出行</span></div>
-      <div class="acard a3"><img src="https://aka.doubaocdn.com/s/SY18YiRn87" alt="海边岩石"><span class="cap">海边 · 岩石</span></div>
-      <div class="acard a4"><img src="https://aka.doubaocdn.com/s/eVaZ2bSOnh" alt="二手书店"><span class="cap">书店 · 周末</span></div>
+      <div class="acard a1"><img src="assets/about_hat.jpeg" alt="余婉婷生活照"><span class="cap">真实的人</span></div>
+      <div class="acard a2"><img src="assets/about_bookstore.jpeg" alt="书店观察"><span class="cap">阅读与观察</span></div>
+      <div class="about-note">
+        <div class="k">Self Evaluation · 自我评价</div>
+        <p>本人性格开朗，沟通主动，具备较强的执行力、自驱力与抗压能力，能够快速适应新环境并持续推进目标落地。</p>
+        <p>过往在学生工作、志愿服务、科创竞赛与 AI 工具实践中，长期承担组织协作、策划、项目推进与成果呈现等工作，形成了较好的跨团队沟通能力、用户洞察能力和问题拆解能力。本人对新事物保持较强好奇心，学习能力强，做事细致踏实，能够在复杂任务中保持韧性与责任感。</p>
+      </div>
     </div>
   </div>
 </section>
@@ -668,8 +760,8 @@
     <div class="photo-copy">
       <div class="eyebrow">Visual Explorations</div>
       <h2 class="sec-title">摄影作品</h2>
-      <div class="sec-sub">PHOTOGRAPHY · 城市 / 自然 / 人像</div>
-      <p class="lead">镜头记录的另一面：街巷、光影与路上的人。</p>
+      <div class="sec-sub">PHOTOGRAPHY · 城市 / 自然 / 光影</div>
+      <p class="lead">把摄影作为观察训练：看见场景里的秩序、情绪和信息重点。</p>
     </div>
     <div class="pitem p1"><img src="https://aka.doubaocdn.com/s/gkqNarQlVM" alt="北京古今同框"><span class="cap">北京 · 古今同框</span></div>
     <div class="pitem p2"><img src="https://aka.doubaocdn.com/s/Y3JCT0vhA6" alt="春日樱"><span class="cap">春日 · 樱</span></div>
