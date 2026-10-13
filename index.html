@@ -238,7 +238,7 @@
   .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px;padding:0 10px;flex:0 0 auto;}
   .flow-detail{
     margin-top:22px;padding:24px 26px;border:1px solid var(--line);background:rgba(255,255,255,0.02);
-    min-height:120px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+    min-height:120px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;
   }
   .flow-detail .d{font-size:13px;color:var(--muted);}
   .flow-detail .d b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;}
@@ -502,7 +502,7 @@
     <div class="midas-map">
       <span class="tag">AI 能力地图</span>
       <div class="frame">
-        <img src="https://aka.doubaocdn.com/s/4zCNgAzfQe" alt="Midas 知识地图">
+        <img src="assets/midas_map.png" alt="Midas 知识地图">
       </div>
     </div>
     <div class="midas-info">
@@ -518,22 +518,22 @@
 
   <div class="midas-grid reveal">
     <div class="mcell">
-      <div class="shot"><img src="https://aka.doubaocdn.com/s/GASVPbtSLp" alt="资料来源"></div>
+      <div class="shot"><img src="assets/midas_source.png" alt="资料来源"></div>
       <div class="step">01 · 资料整理</div>
       <div class="cap"><b>资料来源</b> 课程 / 文档 / 视频，统一入库</div>
     </div>
     <div class="mcell">
-      <div class="shot"><img src="https://aka.doubaocdn.com/s/Lc9MFdCCT9" alt="今日点亮"></div>
+      <div class="shot"><img src="assets/midas_daily.png" alt="今日点亮"></div>
       <div class="step">02 · 结构化学习</div>
       <div class="cap"><b>今日点亮</b> 把大目标拆成每日学习任务</div>
     </div>
     <div class="mcell">
-      <div class="shot"><img src="https://aka.doubaocdn.com/s/6zUPUMwrg9" alt="掌握进度"></div>
+      <div class="shot"><img src="assets/midas_progress.png" alt="掌握进度"></div>
       <div class="step">03 · 掌握检查</div>
       <div class="cap"><b>掌握进度</b> 实时反馈，形成闭环</div>
     </div>
     <div class="mcell">
-      <div class="shot"><img src="https://aka.doubaocdn.com/s/DK4jbMYRa4" alt="面试素材"></div>
+      <div class="shot"><img src="assets/midas_interview.png" alt="面试素材"></div>
       <div class="step">04 · 面试表达</div>
       <div class="cap"><b>面试素材</b> 学过的，能说出来</div>
     </div>
@@ -543,45 +543,47 @@
 <!-- ===== 腾讯主案例 ===== -->
 <section id="tencent">
   <div class="case-head reveal">
-    <div class="eyebrow">AI 短视频生产工作流</div>
+    <div class="eyebrow">AI 短视频素材生产工作流</div>
     <h2 class="sec-title">腾讯｜产品运营实习生<br><em class="accent">Multi-Agent Workflow</em></h2>
     <div class="sec-sub">TENCENT · CONTENT GROWTH · 2026</div>
-    <p class="lead">针对 3 人内容团队产能不足的问题，基于 WorkBuddy 搭建"生成—剪辑—审核"多 Agent 工作流，把团队 KM、内容规范和历史经验转化为可复用的自动化生产流程。</p>
-    <div style="font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--gold);margin-top:18px;">角色 · 产品运营实习生 / 内容增长 — 我做的事，不是岗位罗列</div>
+    <p class="lead">面向 3 人内容小组的产能与质量波动问题，我负责业务侧流程设计和落地推进：把剪辑前的脚本、分镜图片与视频片段生产拆成可审核、可追溯的多 Agent 流程，让团队把时间留给创意、玩家互动和测试引流。</p>
+    <div style="font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--gold);margin-top:18px;">角色 · 产品运营实习生｜业务流程设计、质量机制与试点推进</div>
   </div>
 
   <div class="tx-metrics reveal">
-    <div class="tx-metric"><div class="num">30<span class="unit">万+</span></div><div class="lab">全网粉丝增长</div><div class="desc">3 个月 · 官方账号矩阵</div></div>
-    <div class="tx-metric"><div class="num">4<span class="unit">×</span></div><div class="lab">人均日产能</div><div class="desc">0.5 条 → 2 条</div></div>
-    <div class="tx-metric"><div class="num">80<span class="unit">%</span></div><div class="lab">成片可用率</div><div class="desc">较初版提升 20 个百分点</div></div>
-    <div class="tx-metric"><div class="num">持平</div><div class="lab">效果</div><div class="desc">同账号实投综合表现达到原人工水平</div></div>
+    <div class="tx-metric"><div class="num">30<span class="unit">万+</span></div><div class="lab">矩阵粉丝增长至</div><div class="desc">约 5,000 起步 · 3 个月</div></div>
+    <div class="tx-metric"><div class="num">170<span class="unit">万+</span></div><div class="lab">单条最高播放</div><div class="desc">短视频内容表现</div></div>
+    <div class="tx-metric"><div class="num">4<span class="unit">×</span></div><div class="lab">Agent 接管环节人均日产能</div><div class="desc">0.5 条/天 → 2 条/天；不含人工审核、配音和剪辑</div></div>
+    <div class="tx-metric"><div class="num">60<span class="unit">% → 80%</span></div><div class="lab">素材包合格率</div><div class="desc">可进入人工配音剪辑的比例，提升 20 个百分点</div></div>
   </div>
 
   <div class="flow-wrap reveal">
-    <div class="flow-title">解决方案</div>
+    <div class="flow-title">剪辑前素材生产｜人提交需求，Agent 分阶段制作，人逐关确认</div>
     <div class="flow" id="txFlow">
-      <button class="flow-step" data-i="0"><span class="idx">01</span>选题与 KM</button>
+      <button class="flow-step" data-i="0"><span class="idx">01</span>Brief 与资料</button>
       <div class="flow-arrow">→</div>
-      <button class="flow-step" data-i="1"><span class="idx">02</span>Seedance 生成</button>
+      <button class="flow-step" data-i="1"><span class="idx">02</span>脚本 · DeepSeek</button>
       <div class="flow-arrow">→</div>
-      <button class="flow-step" data-i="2"><span class="idx">03</span>GLM-5.2 驱动剪辑</button>
+      <button class="flow-step" data-i="2"><span class="idx">03</span>分镜图 · GPT</button>
       <div class="flow-arrow">→</div>
-      <button class="flow-step" data-i="3"><span class="idx">04</span>审核 Agent</button>
+      <button class="flow-step" data-i="3"><span class="idx">04</span>视频片段 · Seedance</button>
       <div class="flow-arrow">→</div>
-      <button class="flow-step" data-i="4"><span class="idx">05</span>人工发布</button>
+      <button class="flow-step" data-i="4"><span class="idx">05</span>整体审核与交接</button>
     </div>
     <div class="flow-detail" id="txDetail">
-      <div class="d"><b>Input</b><span>选题、团队知识库 KM、内容规范</span></div>
-      <div class="d"><b>Output</b><span>生产指令与上下文包</span></div>
-      <div class="d"><b>Human</b><span>在此处定方向、确认规则</span></div>
+      <div class="d"><b>Input</b><span>选题、发布平台、创意想法</span></div>
+      <div class="d"><b>Process</b><span>整理 Brief，加载品牌规范与权威游戏资料</span></div>
+      <div class="d"><b>Gate</b><span>缺少目标、素材或限制条件时先补充，不让模型猜</span></div>
+      <div class="d"><b>Output</b><span>可追溯的项目 Brief 与资料版本</span></div>
     </div>
   </div>
 
   <div class="method-grid reveal">
-    <div class="method"><div class="no">M/01</div><h4>模型选型</h4><p>建立模型 Benchmark，以质量、时延和"单条可用视频成本"完成选型与任务路由。</p></div>
-    <div class="method"><div class="no">M/02</div><h4>记忆管理</h4><p>使用 Rules、Skills 和 KM 知识库管理业务规则与上下文，避免不同视频任务之间的记忆污染。</p></div>
-    <div class="method"><div class="no">M/03</div><h4>审核返工</h4><p>设计结构化审核与定向返工机制，素材问题退回生成环节、剪辑问题退回剪辑环节。</p></div>
+    <div class="method"><div class="no">M/01 · EXECUTION</div><h4>Harness：每次调用都有边界</h4><p>按当前步骤准备资料、限制工具权限、校验字段与来源 ID、记录模型和素材版本；资料缺失、输出不合规或接口失败时暂停流程。</p></div>
+    <div class="method"><div class="no">M/02 · ORCHESTRATION</div><h4>控制器与任务路由</h4><p>控制器管理项目状态和上下游依赖，路由器按脚本、生图、生视频、审核分别调用模型。成果带镜头编号与版本交接；上游修改后，只复核受影响的下游素材。</p></div>
+    <div class="method"><div class="no">M/03 · QUALITY</div><h4>盲评量表初审，人来放行</h4><p>与外包评审共同沉淀 1–5 分量表，Kimi K2.5 输出评分、问题位置与依据；加权分和关键维度均需 ≥4。无来源事实、严重违背品牌规范、文件损坏均硬性拦截；审核 Agent 只有初审权。</p></div>
   </div>
+  <p class="lead" style="margin-top:24px;font-size:14px;">范围说明：Agent 负责脚本、分镜图片和视频片段；配音与剪辑仍由人工完成。若审核接口不能读取完整视频，则抽取代表帧供初审；快速动作和短暂特效仍需人工完整审片。</p>
 </section>
 
 <!-- ===== 其他案例：网易 + Pipeline ===== -->
@@ -763,12 +765,12 @@
       <div class="sec-sub">PHOTOGRAPHY · 城市 / 自然 / 光影</div>
       <p class="lead">把摄影作为观察训练：看见场景里的秩序、情绪和信息重点。</p>
     </div>
-    <div class="pitem p1"><img src="https://aka.doubaocdn.com/s/gkqNarQlVM" alt="北京古今同框"><span class="cap">北京 · 古今同框</span></div>
-    <div class="pitem p2"><img src="https://aka.doubaocdn.com/s/Y3JCT0vhA6" alt="春日樱"><span class="cap">春日 · 樱</span></div>
-    <div class="pitem p3"><img src="https://aka.doubaocdn.com/s/LDr5L9GzNC" alt="水下锦鲤"><span class="cap">水下 · 锦鲤</span></div>
-    <div class="pitem p4"><img src="https://aka.doubaocdn.com/s/V0V7XGQgGY" alt="香港街巷夜色"><span class="cap">香港 · 街巷夜色</span></div>
-    <div class="pitem p5"><img src="https://aka.doubaocdn.com/s/iBzvkMlEuy" alt="街头草帽"><span class="cap">街头 · 草帽</span></div>
-    <div class="pitem p6"><img src="https://aka.doubaocdn.com/s/oGlTmOa8Kn" alt="香港街角"><span class="cap">香港 · 街角</span></div>
+    <div class="pitem p1"><img src="assets/photo_beijing.png" alt="北京古今同框"><span class="cap">北京 · 古今同框</span></div>
+    <div class="pitem p2"><img src="assets/photo_sakura.png" alt="春日樱"><span class="cap">春日 · 樱</span></div>
+    <div class="pitem p3"><img src="assets/photo_koi.png" alt="水下锦鲤"><span class="cap">水下 · 锦鲤</span></div>
+    <div class="pitem p4"><img src="assets/photo_hk.png" alt="香港街巷夜色"><span class="cap">香港 · 街巷夜色</span></div>
+    <div class="pitem p5"><img src="assets/photo_hat.png" alt="街头草帽"><span class="cap">街头 · 草帽</span></div>
+    <div class="pitem p6"><img src="assets/photo_street.png" alt="香港街角"><span class="cap">香港 · 街角</span></div>
   </div>
 </section>
 
@@ -817,34 +819,34 @@
   const detail = document.getElementById('txDetail');
   const details = [
     {
-      input:'选题、团队知识库 KM、内容规范',
-      output:'生产指令与上下文包',
-      human:'在此处定方向、确认规则',
-      value:'让生产起点可复用、不散落'
+      input:'选题、发布平台、创意想法',
+      process:'整理项目 Brief，加载品牌规范、权威游戏资料和已确认案例。',
+      gate:'目标、必选内容或禁用项缺失时，先补齐信息；不让模型自行补事实。',
+      output:'带资料版本的项目 Brief 与上下文包'
     },
     {
-      input:'脚本与生产指令',
-      output:'初版视频素材',
-      human:'抽查画面是否符合预期',
-      value:'以较低成本批量产出素材'
+      input:'Brief、品牌规范、游戏权威资料',
+      process:'DeepSeek 4.0 输出结构化镜头表：台词、时长、画面描述、事实来源 ID 与生图提示词。',
+      gate:'Harness 校验字段和来源；Kimi 初审后由人确认脚本，未确认不进入生图。',
+      output:'已确认、带版本的镜头脚本'
     },
     {
-      input:'初版素材',
-      output:'粗剪成片',
-      human:'判断节奏与剪辑质量',
-      value:'剪辑环节自动化，解放人力'
+      input:'已确认镜头脚本、视觉规范、允许使用的素材',
+      process:'GPT 按镜头生成分镜图或关键帧；必要时从内部素材库检索素材。',
+      gate:'Harness 记录提示词、模型和素材版本；Kimi 初审，人选定最终图片版本。',
+      output:'按镜头编号交付的确认图片'
     },
     {
-      input:'成片与规范',
-      output:'质检结果 / 返工单',
-      human:'审核是否通过、是否返工',
-      value:'结构化审核，问题定向回溯'
+      input:'确认图片版本、对应镜头描述、视频要求',
+      process:'Seedance 生成视频片段；Harness 校验文件并记录图片来源版本、参数和模型。',
+      gate:'Kimi 初审后由人完整审看采用片段；画面不合格则定向重做该镜头。',
+      output:'按镜头编号交付的确认视频片段'
     },
     {
-      input:'合格成片',
-      output:'上线内容与数据回流',
-      human:'最终人工发布',
-      value:'数据回流，持续优化流程'
+      input:'确认后的脚本、图片和视频片段',
+      process:'Kimi 整体审核素材包，检查内容对应、规范一致与文件完整，输出评分和问题清单。',
+      gate:'加权分 ≥4、关键维度 ≥4、无硬性拦截项；人做最终确认。修改上游后，相关下游版本标记待复核。',
+      output:'交给人工配音与剪辑的素材包'
     }
   ];
   function renderFlow(i){
@@ -852,9 +854,9 @@
     const d = details[i];
     detail.innerHTML =
       '<div class="d"><b>Input</b><span>'+d.input+'</span></div>'+
-      '<div class="d"><b>Output</b><span>'+d.output+'</span></div>'+
-      '<div class="d"><b>Human</b><span>'+d.human+'</span></div>'+
-      '<div class="d" style="grid-column:1/-1;border-top:1px solid var(--line);padding-top:12px;"><b>Product Value</b><span>'+d.value+'</span></div>';
+      '<div class="d"><b>Process</b><span>'+d.process+'</span></div>'+
+      '<div class="d"><b>Human Gate</b><span>'+d.gate+'</span></div>'+
+      '<div class="d"><b>Output</b><span>'+d.output+'</span></div>';
   }
   steps.forEach((s,idx)=>{
     s.addEventListener('click', ()=>renderFlow(idx));
